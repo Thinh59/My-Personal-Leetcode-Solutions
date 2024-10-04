@@ -1,0 +1,2252 @@
+#19
+from collections import OrderedDict
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def removeNthFromEnd(self, n):
+        cur = self.head
+        dic = OrderedDict()
+        while cur:
+            dic[cur] = None
+            cur = cur.next
+        l = list(dic.keys())
+        newNode = l[-n]
+        cur1 = self.head
+        if self.head == newNode:
+            return self.head.next
+        while cur1.next:
+            if cur1.next == newNode:
+                cur1.next = cur1.next.next
+            else:
+                cur1 = cur1.next
+        if cur1 == newNode:
+            cur1 = None
+        return self.head
+    
+    def removeNthFromEnd_2(self, n):
+        cur = self.head
+        listNode = []
+        while cur:
+            listNode.append(cur)
+            cur = cur.next
+        prev_node = listNode[-n - 1]
+        prev_node.next = prev_node.next.next
+        return self.head
+    
+    def removeNthFromEnd_3(self, n):
+        dummy = Node(0)
+        dummy.next = self.head
+        first = dummy
+        second = dummy
+        for _ in range(n + 1):
+            first = first.next
+        while first:
+            first = first.next
+            second = second.next
+        second.next = second.next.next
+        return dummy.next
+
+#21
+class ListNode():
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+
+class Solution():
+    def mergeTwoLists(self, list1, list2):
+        res = temp = ListNode()
+        while list1 != None and list2 != None:
+            if list1.val < list2.val:
+                temp.next = list1
+                list1 = list1.next
+            else:
+                temp.next = list2
+                list2 = list.next
+            
+
+#23
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    
+    def mergeKLists(self, lists : list[Node]):
+        arr = []
+        for l in lists:
+            while l:
+                arr.append(l.data)
+                l = l.next
+        arr.sort()
+        res = Node(0)
+        cur = res
+        for i in arr:
+            cur.next = Node(i)
+            cur = cur.next
+        return res.next
+
+
+#24
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+
+    def swapPairs(self):
+        if self.head == None:
+            return None
+
+        cur = self.head
+        while cur and cur.next:
+            cur.data , cur.next.data = cur.next.data, cur.data
+            cur = cur.next.next        
+        
+        return self.head
+
+#25
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    
+    def reverseKGroup(self, k: int):
+        x = [[]]
+        index_x = 0
+        len_index_x = 0
+
+        while self.head:
+            if len_index_x == k:
+                len_index_x = 0
+                index_x = index_x + 1
+                x.append([])
+            x[index_x].append(self.head.data)
+            self.head.data = self.head.next
+            len_index_x = len_index_x + 1
+        
+        for i in range(len(x)):
+            if len(x[i]) == k:
+                x[i].reverse()
+        
+        res = resNext = Node(0)
+        for i in x:
+            for j in i:
+                resNext.next = Node(j)
+                resNext = resNext.next
+        resNext.next = None
+        return res.next
+
+#61
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    
+    def rotateRight(self, k: int):
+        if self.head is None or self.head.next is None or k == 0:
+            return self.head
+        length = 1
+        cur = self.head
+        while cur.next:
+            cur = cur.next
+            length = length + 1
+        if k == length or k % length == 0:
+            return self.head
+        cur.next = self.head
+        k = k % length
+        pos = length - k
+        while pos:
+            cur = cur.next
+            pos = pos - 1
+        
+        self.head = cur.next
+        cur.next = None
+        return self.head
+    
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    
+if __name__ == "__main__":
+    lst = [1, 2, 3, 4, 5]
+    ll = LinkedList()
+    ll.toLinkedList(lst)
+    ll.printLinkedList()
+    ll.rotateRight(k = 2000000000)
+    ll.printLinkedList()
+
+
+
+
+#82
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    
+    def toLinkedList(self, lst):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    
+    def deleteDuplicates(self):
+        if self.head is None:
+            return self.head
+        res = Node(0)
+        res.next = self.head
+        cur = res
+
+        while cur:
+            if cur.next and cur.next.next and cur.next.data == cur.next.next.data:
+                temp = cur.next.next
+                while temp and temp.next and temp.data == temp.next.data:
+                    temp = temp.next
+                cur.next = temp.next
+            else:
+                cur = cur.next
+        
+        return res.next
+    
+if __name__ == "__main__":
+    lst = [1, 2, 2, 2, 2, 3, 4]
+    ListNode = LinkedList()
+    ListNode.toLinkedList(lst)
+    ListNode.printLinkedList()
+    ListNode.deleteDuplicates()
+    ListNode.printLinkedList()
+
+
+#83
+class ListNode():
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+
+class Solution():
+    def __init__ (self):
+        self.head = None
+    def toLinkedList(self, lst):
+        res = resNext = ListNode()
+        for i in lst:
+            resNext.next = ListNode(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def deleteDuplictaes(self):
+        cur = self.head
+        while cur != None and cur.next != None:
+            if cur.val == cur.next.val:
+                cur.next = cur.next.next
+            else:
+                cur = cur.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.val, end = " ")
+            cur = cur.next
+        print()
+
+if __name__ == "__main__":
+    lst = [1, 1, 2, 3]
+    LinkedList = Solution()
+    LinkedList.toLinkedList(lst)
+    LinkedList.printLinkedList()
+    LinkedList.deleteDuplictaes()
+    LinkedList.printLinkedList()
+
+#86
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(0)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    
+    def printLinkedList(self):
+        cur = self.head 
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+
+    def partition(self, x):
+        #Convert to list and process
+        if self.head is None:
+            return self.head
+        Lst = []
+        cur = self.head
+        while cur:
+            Lst.append(cur.data)
+            cur = cur.next
+        pos = 0
+        for i in range(len(Lst)):
+            if Lst[i] < x:
+                Lst.insert(pos, Lst.pop(i))
+                pos = pos + 1
+        print(Lst)
+        Res = ResNext = Node(None)
+        for i in Lst:
+            ResNext.next = Node(i)
+            ResNext = ResNext.next
+        self.head = Res.next
+        return self.head
+    
+    def partitionAnswer(self, x):
+        #Solve with Linked List
+        h1 = l1 = Node(None)
+        h2 = l2 = Node(None)
+
+        while self.head:
+            if self.head.data < x:
+                l1.next = self.head
+                l1 = l1.next
+            else:
+                l2.next = self.head
+                l2 = l2.next
+            
+            self.head = self.head.next
+        l2.next = None
+        l1.next = h2.next
+        self.head = h1.next
+        return self.head
+    
+if __name__ == "__main__":
+    lst = [1, 4, 3, 2, 5, 2]
+    ListNode = LinkedList()
+    ListNode.toLinkedList(lst)
+    ListNode.printLinkedList()
+    ListNode.partitionAnswer(x = 3)
+    ListNode.printLinkedList()
+    
+
+#92
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    
+    def toLinkedList(self, lst):
+        res = resNext = Node(0)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    
+    def reverseBetween(self, left, right):
+        if left > right or self.head is None:
+            return self.head
+        
+        lst = []
+        cur = self.head
+        while cur:
+            lst.append(cur.data)
+            cur = cur.next
+        if left > len(lst) or right > len(lst):
+            return self.head
+        left_index = left - 1
+        right_index = right - 1
+        lst[left_index:right_index+1] = list(reversed(lst[left_index:right_index+1]))
+        print(lst)
+        res = resNext = Node(0)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    
+if __name__ == "__main__":
+    lst = [3, 5]
+    ListNode = LinkedList()
+    ListNode.toLinkedList(lst)
+    ListNode.printLinkedList()
+    ListNode.reverseBetween(left = 1, right = 2)
+    ListNode.printLinkedList()
+
+
+#109
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class TreeNode():
+    def __init__(self, data):
+        self.data = data
+        self.right = None
+        self.left = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        
+        self.head = res.next
+        return self.head
+    
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def sortedListToBST(self, head):
+        self.head = head
+        if self.head is None:
+            return None
+        elif self.head.next is None:
+            return TreeNode(self.head.data)
+        
+        slow = fast = self.head
+        pre = None
+        while fast and fast.next:
+            pre = slow
+            slow = slow.next
+            fast = fast.next.next
+        pre.next = None
+        root = TreeNode(slow.data)            
+        root.left = self.sortedListToBST(self.head)
+        root.right = self.sortedListToBST(slow.next)
+
+        return root
+    
+
+
+#114
+class TreeNode():
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class Solution():
+    def flatten(self, root):
+        def dfs(root):
+            if not root:
+                return None
+            
+            leftTail = dfs(root.left)
+            rightTail = dfs(root.right)
+
+            while root.left:
+                leftTail.right = root.right
+                root.right = root.left
+                root.left = None
+            last = rightTail or leftTail or root
+            return last
+        dfs(root)
+
+
+#116
+class TreeNode():
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.next = None
+
+class Solution():
+    def connect(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+        
+        cur = root
+        nxt = root.left
+
+        while cur and nxt:
+            cur.left.next = cur.right
+            if cur.next:
+                cur.right.next = cur.next.left
+            cur = cur.next
+            if not cur:
+                cur = nxt
+                nxt = cur.left
+        return root
+
+if __name__ == "__main__":
+    # Create the nodes
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.right = TreeNode(3)
+    root.left.left = TreeNode(4)
+    root.left.right = TreeNode(5)
+    root.right.left = TreeNode(6)
+    root.right.right = TreeNode(7)
+
+    # Run the connect() function
+    solution = Solution()
+    result = solution.connect(root)
+
+
+#117
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.next = None
+class Solution():
+    def connect(root):
+        if not root:
+            return None
+        
+        level = [root]
+        while level:
+            curlevel = []
+            for i, node in enumerate(level):
+                if i > 0:
+                    level[i - 1].next = node
+                if node.left:
+                    curlevel.append(node.left)
+                if node.right:
+                    curlevel.append(node.right)
+            level = curlevel
+        return root
+    
+if __name__ == "__main__":
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.right = Node(5)
+    root.right.right = Node(7)
+    root.left.right.left = Node(4)
+    P117 = Solution()
+    P117.connect(root)
+
+
+#141
+class ListNode():
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+    
+class Solution():
+    def hasCycle(self, head):
+        cur = head
+        seen = set()
+        while cur != None:
+            if cur in seen:
+                return True
+            seen.add(cur)
+            cur = cur.next
+        return False
+
+
+#142
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkeList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def detectCycle(self):
+        cur = self.head
+        nodes = set()
+        while cur:
+            if cur in nodes:
+                return cur
+            nodes.add(cur)
+            cur = cur.next
+        return None
+    
+if __name__ == "__main__":
+    lst = [3,2,0,-4,2, 0]
+    ListNodes = LinkedList()
+    ListNodes.toLinkeList(lst)
+    ListNodes.printLinkedList()
+    print(ListNodes.detectCycle())
+
+
+#143
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class Solution():
+    def __init__(self):
+        self.head = None
+    def reorderList(self):
+        slow , fast = self.head, self.head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        second = slow.next
+        pre = slow.next = None
+        while second:
+            temp = second.next
+            second.next = pre
+            pre = second
+            second = temp
+
+        first, second = self.head, pre
+        while second:
+            temp1, temp2 = first.next, second.next
+            first.next = second
+            second.next = temp1
+            first, second = temp1, temp2
+
+
+#147
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def insertionSortList(self):
+        i = self.head
+        while i:
+            j = i.next
+            while j:
+                if i.data > j.data:
+                    i.data, j.data = j.data, i.data
+                j = j.next
+            i = i.next
+        return self.head
+    
+if __name__ == "__main__":
+    lst = [4, 2, 1, 3, 5, 199 ,100]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    ListNodes.insertionSortList()
+    ListNodes.printLinkedList()
+
+
+#160
+class ListNode():
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution():
+    def getIntersectionNode(self, headA, headB):
+        set1 = set()
+        while headA is not None:
+            set1.add(headA)
+            headA = headA.next
+        
+        while headB is not None:
+            if headB in set1:
+                return headB
+            else:
+                headB = headB.next
+        return None
+
+
+#206
+class ListNode():
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+
+class Solution():
+    def reverseList(self, head):
+        cur = head
+        new_list = None
+
+        while cur:
+            new_node = cur.next
+            cur.next = new_list
+            new_list = cur
+            cur = new_node
+        return new_list
+
+
+
+#234
+class ListNode():
+    def __init__(self, val = 0, next = None):
+        self. val = val
+        self.next = next
+
+class Solution():
+    def mid(self, head):
+        slow = fast = head
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+    
+    def reverse(self, head):
+        new_list = None
+        cur = head
+        while cur:
+            new_node = cur.next
+            cur.next = new_list
+            new_list = cur
+            cur = new_node
+        
+        return new_list
+    
+    def isPlaindrome(self, head):
+        midHead = self.mid(head).next
+        midHead = self.reverse(midHead)
+
+        while midHead:
+            if head.val != midHead.val:
+                return False
+            else:
+                head = head.next
+                midHead = midHead.next
+        return True
+
+
+#237
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def deleteNode(self, node):
+        node.data = node.next.data
+        node.next = node.next.next
+
+if __name__ == "__main__":
+    lst = [1, 4, 5, 2, 3]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    ListNodes.deleteNode(Node(4))
+    ListNodes.printLinkedList()
+
+
+
+#328
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def oddEvenIndexList(self):
+        values = []
+        cur = self.head
+        while cur:
+            values.append(cur.data)
+            cur = cur.next
+        index = 0
+        for i in range(len(values)):
+            if i % 2 == 0:
+                values.insert(index, values.pop(i))
+                index = index + 1
+        res = resNext = Node(None)
+        for i in values:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+if __name__ == "__main__":
+    lst = [2, 1, 3, 5, 6, 4, 7]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    ListNodes.oddEvenIndexList()
+    ListNodes.printLinkedList()
+
+#369
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self,n: int):
+        n = str(n)
+        l = list(n)
+        res = resNext = Node(None)
+        for i in range(len(l)):
+            resNext.next = Node(int(l[i]))
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def plusOne(self):
+        cur = self.head
+        while cur.next:
+            cur = cur.next
+        cur.data = cur.data + 1
+        return self.head
+    
+if __name__ == "__main__":
+    n = int(input("Input n = "))
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(n)
+    ListNodes.printLinkedList()
+    ListNodes.plusOne()
+    ListNodes.printLinkedList()
+
+
+#379
+from collections import deque
+
+class PhoneDicrectory():
+    def __init__(self, maxNumbers):
+        self.available = [True] * maxNumbers
+        self.q = deque([i for i in range(maxNumbers)])
+    
+    def get(self):
+        if self.q:
+            self.available[self.q[0]] = False
+            return self.q.popleft()
+        return -1
+    def check(self, number):
+        return self.available[number]
+    def release(self, number):
+        if not self.available[number]:
+            self.available[number] = True
+            self.q.append(number)
+            
+
+
+#382
+import random
+
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class Solution():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def getRandom(self):
+        cur = self.head
+        values = []
+        while cur:
+            values.append(cur.data)
+            cur = cur.next
+        return random.choice(values)
+
+if __name__ == "__main__":
+    lst = [1, 2, 3]
+    ListNodes = Solution()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    print(ListNodes.getRandom())
+
+
+#445
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class ListNodes():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+class Solution():
+    def addTwoNumbers(self, l1, l2):
+        lst1 = []
+        lst2 = []
+        while l1:
+            lst1.append(l1.data)
+            l1 = l1.next
+        while l2:
+            lst2.append(l2.data)
+            l2 = l2.next
+        n1 = 0
+        n2 = 0
+        p = 1
+        for i in range(len(lst1) - 1, -1, -1):
+            n1 = n1 + lst1[i] * p
+            p = p * 10
+        p = 1
+        for i in range(len(lst2) - 1, -1, -1):
+            n2 = n2 + lst2[i] * p
+            p = p * 10
+        s = n1 + n2
+        result = []
+        if s == 0:
+            result.append(0)
+        else:
+            while s != 0:
+                result.append(s % 10)
+                s = s // 10
+        res = resNext = Node(None)
+        for i in result:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        return res.next
+    def addTwoNumbersII(self, l1, l2):
+        s1 = 0
+        s2 = 0
+        while l1:
+            if l1 == None:
+                break
+            s1 = s1 * 10 + l1.val
+            l1 = l1.next
+        while l2:
+            if l2 == None:
+                break
+            s2 = s2 * 10 + l2.val
+            l2 = l2.next
+        s = s1 + s2
+        res = Node(s % 10)
+        s = (s - res.val) // 10
+        while s > 0:
+            res = Node(s % 10, res)
+            s = (s - res.val) // 10
+        return res
+
+#705
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class MyHashSet():
+    def __init__(self):
+        self.head = None
+    def add(self, key):
+        if not self.head:
+            self.head = Node(key)
+        else:
+            cur = self.head
+            while cur.next:
+                cur = cur.next
+            cur.next = Node(key)
+    def remove(self, key):
+        cur = self.head
+        if self.head.data == key:
+            self.head.next = self.head
+            self.head = None
+        else:
+            while cur and cur.next:
+                if cur.next.data == key:
+                    cur.next = cur.next.next
+                else:
+                    cur = cur.next
+    def contains(self, key):
+        cur = self.head
+        while cur:
+            if cur.data == key:
+                return True
+            cur = cur.next
+        return False
+    
+
+#707
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class MyLinkedList():
+    def __init__(self):
+        self.head = None
+        self.length = 0
+    def get(self, index):
+        if index < 0 or index >= self.length:
+            return -1
+        cur = self.head
+        for i in range(index):
+            cur = cur.next
+        return cur.data
+    def addAtHead(self, val):
+        newNode = Node(val)
+        newNode.next = self.head
+        self.head = newNode
+        self.length = self.length + 1
+    def addAtTail(self, val):
+        cur = self.head
+        if cur is None:
+            self.head = Node(val)
+        else:
+            while cur.next is not None:
+                cur = cur.next
+            cur.next = Node(val)
+        self.length = self.length + 1
+    def addAtIndex(self, index, val):
+        if index < 0 or index > self.length:
+            return
+        if index == 0:
+            self.addAtHead(val)
+        else:
+            cur = self.head
+            for i in range(index - 1):
+                cur = cur.next
+            newNode = Node(val)
+            newNode.next = cur.next
+            cur.next = newNode
+            self.length = self.length + 1
+    def deleteAtIndex(self, index):
+        if index < 0 or index >= self.length:
+            return
+        if index == 0:
+            self.head = self.head.next
+        else:
+            cur = self.head
+            for i in range(index - 1):
+                cur = cur.next
+            cur.next = cur.next.next
+        self.length = self.length - 1
+
+#725
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class Solution():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def splitsToParts(self, k: int):
+        cur = self.head
+        length = 0
+        while cur:
+            length = length + 1
+            cur = cur.next
+        chunk_size = length // k
+        longer_chunks = length % k
+        res = [chunk_size + 1] * longer_chunks + [chunk_size] * (k - longer_chunks)
+        cur = self.head
+        prev = None
+        for index, num in enumerate(res):
+            if prev:
+                prev.next = None
+            res[index] = cur
+            for i in range(num):
+                prev = cur
+                cur = cur.next
+        return res
+
+if __name__ == "__main__":
+    lst = [1, 2, 3, 4, 5, 6]
+    k = 4
+    ListNodes = Solution()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    ListNodes.splitsToParts(k)
+    print(ListNodes.splitsToParts(k))
+
+
+#817
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class Solution():
+    def  __init__(self):
+        self.head = None
+    def numComponents(self, nums):
+        pointer = self.head
+        prev = None
+        count = 0
+
+        while pointer:
+            if pointer.data in nums:
+                if not prev:
+                    count = count + 1
+                prev = True
+            else:
+                prev = False
+            pointer = pointer.next
+        return count
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+if __name__ == "__main__":
+    lst = [0, 1, 2, 3, 4]
+    nums = [1, 3, 0, 4]
+    ListNodes = Solution()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    print(ListNodes.numComponents(nums))
+
+
+#1019
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class Solution():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = ' ')
+            cur = cur.next
+        print()
+    def nextLargerNodes(self):
+        """
+        :type head: ListNode
+        :rtype: List[int]
+        """
+        lst = []
+        cur = self.head
+        while cur:
+            lst.append(cur.data)
+            cur = cur.next
+        for i in range(len(lst)):
+            max = lst[i]
+            for j in range(i + 1, len(lst)):
+                if lst[j] > max:
+                    max = lst[j]
+                    break
+            if max > lst[i]:
+                lst[i] = max
+            else:
+                lst[i] = 0
+        lst[-1] = 0
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+if __name__ == "__main__":
+    lst = [2, 3, 1, 5]
+    ListNodes = Solution()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    ListNodes.nextLargerNodes()
+    ListNodes.printLinkedList()
+
+
+#1171
+class Node():
+    def __init__(self, data, next = None):
+        self.data = data
+        self.next = next
+class Solution():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def removeZeroSumSubLists(self):
+        front = Node(0, self.head)
+        start = front
+
+        while start:
+            s = 0
+            end = start.next
+            while end:
+                s = s + end.data
+                if s == 0:
+                    start.next = end.next
+                end = end.next
+            start = start.next
+        self.head = front.next
+        return self.head
+    
+if __name__ == "__main__":
+    lst = [1, 5, 4, 3, 8, -3, -5, 2]
+    ListNodes = Solution()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    ListNodes.removeZeroSumSubLists()
+    ListNodes.printLinkedList()
+
+
+#1669
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+class Solution():
+    def mergeInBetween(head1, a, b, head2):
+        first = Node(None)
+        first.next = head1
+        for i in range(a):
+            first = first.next
+        second = head1
+        for i in range(b):
+            second = second.next
+        first.next = head2
+        cur = head2
+        while cur.next:
+            cur = cur.next
+        cur.next = second.next
+        return head1
+if __name__ == "__main__":
+    lst1 = [0, 1, 2, 3, 4, 5, 6]
+    lst2 = [1000, 1001, 1002, 1003, 1004]
+    list1 = LinkedList()
+    list1.toLinkedList(lst1)
+    list1.printLinkedList()
+    list2 = LinkedList()
+    list2.toLinkedList(lst2)
+    list2.printLinkedList()
+    solution = Solution()
+    Solution.mergeInBetween(head1 = list1.head, a = 2, b = 5, head2 = list2.head)
+    list1.printLinkedList()
+
+
+#1721
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class Solution():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def swapNodes(self, k):
+        if not self.head:
+            return None
+        fast = self.head
+        slow = self.head
+        first_k = None
+        second_k = None
+
+        for i in range(k - 1):
+            fast = fast.next
+        first_k = fast
+        while fast.next:
+            fast = fast.next 
+            slow = slow.next
+        second_k = slow
+        first_k.data, second_k.data = second_k.data, first_k.data
+        return self.head
+    
+if __name__ == "__main__":
+    lst = [1, 2, 3, 4, 5]
+    ListNodes = Solution()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    ListNodes.swapNodes(k = 2)
+    ListNodes.printLinkedList()
+
+
+
+#2058
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    
+class Solution():
+    def nodesBetweenCriticalPoints(self, head):
+        lst = []
+        cur = head
+        while cur:
+            lst.append(cur.data)
+            cur = cur.next
+        index = []
+        for i in range(1, len(lst) - 1):
+            if lst[i] > lst[i - 1] and lst[i] > lst[i + 1]:
+                index.append(i)
+            if lst[i] < lst[i - 1] and lst[i] < lst[i + 1]:
+                index.append(i)
+        if len(index) < 2:
+            return [-1, -1]
+        minD = abs(index[0] - index[1])
+        maxD = index[-1] - index[0]
+        for i in range(1, len(index)):
+            minD = min(minD, index[i] - index[i - 1])
+        return [minD, maxD]
+    def nodesBetweenCriticalPointsSolve2(self, head):
+        prev = head
+        cur = head.next
+        aft = cur.next
+        index = 2
+        res = []
+        while aft:
+            if (cur.data > prev.data and cur.data > aft.data) or (cur.data < prev.data and cur.data < aft.data):
+                res.append(index)
+            index = index + 1
+            prev = cur
+            cur = aft
+            aft = aft.next
+        if len(res) < 2:
+            return [-1, -1]
+        minD = res[1] - res[0]
+        maxD = res[-1] - res[0]
+        for i in range(1, len(res)):
+            minD = min(minD, res[i] - res[i - 1])
+        return [minD, maxD]
+if __name__ == "__main__":
+    lst = [5, 3, 1, 2, 5, 1, 2]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    solution = Solution()
+    print(solution.nodesBetweenCriticalPointsSolve2(ListNodes.head))
+
+
+
+
+#2074
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = Node(None)
+    def toLinkedList(self, lst: list):
+        res  = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+class Solution():
+    def reverseEvenLengthGroups(self, head):
+        lst = []
+        cur = head
+        while cur:
+            lst.append(cur.data)
+            cur = cur.next
+        length = len(lst)
+        group = 1
+        pos = 0
+        while pos < length:
+            if length - pos < group + 1 and (length - pos) % 2 == 0:
+                lst[pos: length] = list(reversed(lst[pos: length]))
+            elif group % 2 == 0 and (min(pos + group, length) - pos) % 2 == 0:
+                lst[pos: min(pos + group, length)] = list(reversed(lst[pos: min(pos + group, length)]))
+            pos = pos + 1
+            group = group + 1
+        
+        node = head
+        for i in lst:
+            node.data = i
+            node = node.next
+        return head
+    
+if __name__ == "__main__":
+    lst = [1, 1, 0, 6, 5]
+    ListNode = LinkedList()
+    ListNode.toLinkedList(lst)
+    ListNode.printLinkedList()
+    solution = Solution()
+    solution.reverseEvenLengthGroups(ListNode.head)
+    ListNode.printLinkedList()
+
+
+
+
+
+#2095
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+class Solution():
+    def deleteMidle(self, head):
+        if not head or not head.next:
+            return None
+        prev = fast = slow = head
+        while fast and fast.next:
+            prev = slow
+            slow = slow.next
+            fast = fast.next.next
+        prev.next = prev.next.next
+        return head
+    
+if __name__ == "__main__":
+    lst = [1, 3, 4, 7, 1, 2, 6]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    solution = Solution()
+    solution.deleteMidle(ListNodes.head)
+    ListNodes.printLinkedList()
+
+
+
+#2130
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+class Solution():
+    def pairSum(self, head):
+        fast = slow = head
+        prev = None
+        while fast and fast.next:
+            fast = fast.next.next
+            new_node = slow.next
+            slow.next = prev
+            prev = slow
+            slow = new_node
+        maxS = 0
+        while slow:
+            maxS = max(maxS, slow.data + prev.data)
+            slow = slow.next
+            prev = prev.next
+        return maxS
+    
+    def pairSumPHCT59MTJJ(self, head):
+        """
+        :type head: Optional[ListNode]
+        :rtype: int
+        """
+        lst = []
+        cur = head
+        while cur:
+            lst.append(cur.val)
+            cur = cur.next
+        l1 = lst[0: len(lst) // 2]
+        l2 = lst[len(lst) // 2::]
+        maxS = 0
+        for i in range(len(l1)):
+            maxS = max(maxS, l1[i] + l2[-1 - i])
+        return maxS
+    
+if __name__ == "__main__":
+    lst = [5, 4, 2, 1]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    solution = Solution()
+    print(solution.pairSum(ListNodes.head))
+
+
+#2289
+class Solution():
+    def totalSteps( nums):
+        step = 0
+        while True:
+            removed = False
+            new_nums = []
+            i = 0
+            while i < len(nums):
+                if i == 0 or nums[i] >= nums[i - 1]:
+                    new_nums.append(nums[i])
+                else:
+                    removed = True
+                i = i + 1
+            if not removed:
+                break
+            nums = new_nums
+            step = step + 1
+        return step
+if __name__ == "__main__":
+    print(Solution.totalSteps([5,3,4,4,7,6,5,11,8,5,11]))
+
+
+#2326
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+class Solution():
+    def spiralMatrix(self, m, n, head):
+        a = [[-1] * n for _ in range(m)]
+        c1 = 0
+        c2 = n - 1
+        h1 = 0
+        h2 = m - 1
+        cur = head
+        while cur and h1 <= h2 and c1 <= c2:
+            for i in range(c1, c2 + 1):
+                if cur:
+                    a[h1][i] = cur.data
+                    cur = cur.next
+            h1 = h1 + 1
+            for i in range(h1, h2 + 1):
+                if cur:
+                    a[i][c2] = cur.data
+                    cur = cur.next
+            c2 = c2 - 1
+            for i in range(c2, c1 - 1, -1):
+                if cur:
+                    a[h2][i] = cur.data
+                    cur = cur.next
+            h2 = h2 - 1
+            for i in range(h2, h1 - 1, -1):
+                if cur:
+                    a[i][c1] = cur.data
+                    cur = cur.next
+            c1 = c1 + 1
+        return a
+
+if __name__ == "__main__":
+    lst = [3,0,2,6,8,1,7,9,4,2,5,5,0]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    solution = Solution()
+    print(solution.spiralMatrix(m = 3, n = 5, head = ListNodes.head))
+
+
+#2487
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+class Solution():
+    def removeNodes(self, head):
+        if not head or not head.next:
+            return head
+        cur = head
+        prev = None
+        while cur:
+            newNode = cur.next
+            cur.next = prev
+            prev = cur
+            cur = newNode
+        #cur : None, prev: đầu linked list đã đảo
+        cur, prev.next = prev.next, cur  #cur = đầu linked lists, prev.next = None: tách rời prev khỏi head thành 1 linked list mới
+        while cur:
+            temp = cur.next
+            if cur.val >= prev.val:
+                cur.next = prev
+                prev = cur
+            cur = temp
+        return prev
+    
+    def removeNodesPHCT59MTJJ(self, head):
+        start = head
+        result = []
+        while start:
+            end = start.next
+            flat = True
+            while end:
+                if end.data > start.data:
+                    flat = False
+                end = end.next
+            if flat:
+                result.append(start.data)
+            start = start.next
+        res = resNext = Node(None)
+
+        for i in result:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        head = res.next
+        return head
+    
+
+if __name__ == "__main__":
+    lst = [5, 2, 13, 3, 8]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    solution = Solution()
+    solution.removeNodes(ListNodes.head)
+    ListNodes.printLinkedList()
+
+
+
+#2807
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+class Solution():
+    def GCD(self, a, b):
+        if a * b < 0:
+            return -1
+        while a != 0 and b != 0:
+            if a > b:
+                a = a % b
+            else:
+                b = b % a
+        return (a == 0) * b + (b == 0) * a
+    def printLinkedList(self, head):
+        cur = head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def insertGreatestCommonDivisors(self, head):
+        if not head or not head.next:
+            return head
+        cur = head
+        while cur and cur.next:
+            temp = cur.next
+            newNode = Node(self.GCD(cur.data, temp.data))
+            cur.next = newNode
+            newNode.next = temp
+            cur = temp
+        return head
+
+if __name__ == "__main__":
+    lst = [18, 6, 10, 3]
+    ListNodes = LinkedList()
+    ListNodes.toLinkedList(lst)
+    ListNodes.printLinkedList()
+    solution = Solution()
+    solution.insertGreatestCommonDivisors(ListNodes.head)
+    solution.printLinkedList(ListNodes.head)
+
+
+#2816
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList():
+    def __init__(self):
+        self.head = None
+    def toLinkedList(self, lst: list):
+        res = resNext = Node(None)
+        for i in lst:
+            resNext .next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return res.next
+    def printLinkedList(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end = " ")
+            cur = cur.next
+        print()
+    def doubleIt(self):
+        n = 0
+        cur = self.head
+        while cur:
+            n = n * 10 + cur.data
+            cur = cur.next
+        n = list(str(n * 2))
+        res = resNext = Node(None)
+        for i in n:
+            resNext.next = Node(i)
+            resNext = resNext.next
+        self.head = res.next
+        return self.head
+if __name__ == "__main__":
+    lst = [1, 8, 9]
+    listNode = LinkedList()
+    listNode.toLinkedList(lst)
+    listNode.printLinkedList()
+    listNode.doubleIt()
+    listNode.printLinkedList()
+
+
+
+#dfs
+import math
+
+class Node:
+    def __init__(self, val):
+        self.value = val
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_val):
+        new_node = Node(new_val)
+        new_node.next = self.head
+        self.head = new_node
+
+    def insert_after(self, ref_node, val):
+        if ref_node is None:
+            return
+        new_node = Node(val)
+        new_node.next = ref_node.next
+        ref_node.next = new_node
+
+    def insert_at_end(self, new_val):
+        new_node = Node(new_val)
+
+        # If empty linked list is given
+        if self.head is None:
+            self.head = new_node
+            return
+
+        # Traversing the given LL to reach the end
+        ref_node = self.head
+        while ref_node.next:
+            ref_node = ref_node.next
+        ref_node.next = new_node
+
+    def delete_key(self, key):
+        temp = self.head
+
+        # Checking if the key to be deleted is at the head
+        if temp is not None:
+            if temp.value == key:
+                self.head = temp.next
+                temp = None
+                return
+
+        # If the key isn't at the head
+        # TRICK -> Assign first, check later. If check yields True, break and don't update.
+        while temp is not None:
+            if temp.value == key :
+                break
+            prev_node = temp
+            temp = temp.next
+
+        # If key isn't present in the linked list
+        if temp is None:
+            print("\nInvalid Entry! ")
+            return
+
+        prev_node.next = temp.next
+        temp = None
+
+    # Delete the first occurrence
+    def delete_key_using_dummy(self,key):
+        dummy_head = Node(-math.inf)
+        dummy_head.next = self.head
+        curr_node = dummy_head
+
+        while curr_node.next is not None:
+            if curr_node.next.value == key:
+                curr_node.next = curr_node.next.next
+                break
+            else:
+                curr_node = curr_node.next
+        return dummy_head.next
+
+    def delete_all_occurrences(self,key):
+        dummy_head = Node(-math.inf)
+        dummy_head.next = self.head
+        curr_node = dummy_head
+
+        while curr_node.next is not None:
+            if curr_node.next.value == key:
+                curr_node.next = curr_node.next.next
+            else:
+                curr_node = curr_node.next
+        return dummy_head.next
+
+    def print_linked_list(self):
+        if self.head is None:
+            return ""
+
+        node = self.head
+        while node:
+            print(node.value, end = "   ")
+            node = node.next
+
+    def length(self):
+        curr_node = self.head
+        count = 0
+        while curr_node:
+            count += 1
+            curr_node = curr_node.next
+        return count
+
+    def search_key(self, key):
+        curr_node = self.head
+        while curr_node:
+            if curr_node.value == key:
+                return True
+            else:
+                curr_node = curr_node.next
+        return False
+
+    def search_key_recursive(self, node, key):
+        if not node:
+            return
+        if node.value == key:
+            return True
+        return self.search_key_recursive(node.next,key)
+
+    def get_at_index(self, index):
+        curr_node = self.head
+        if index > self.length() - 1:
+            return -1
+        for i in range(index):
+            if curr_node:
+                curr_node = curr_node.next
+        return curr_node.value
+
+    def n_from_end(self, n):
+        curr_node = self.head
+        if n > self.length():
+            return -1
+        index = self.length() - n
+        for i in range(index):
+            if curr_node:
+                curr_node = curr_node.next
+        return curr_node.value
+
+    def n_from_end_runner(self, n):
+        p1 , p2, count = self.head, self.head, 0
+        if self.head is not None:
+            while count < n:
+                if p2 is None:
+                    return -1
+                p2 = p2.next
+                count += 1
+
+        while p2 is not None:
+            p1 = p1.next
+            p2 = p2.next
+        return p1.value
+
+    def middle_val(self):
+        p1, p2 = self.head, self.head
+        if self.head:
+            while p2 and p2.next:
+                p1 = p1.next
+                p2 = p2.next.next
+        return p1.value
+
+    def count_repetition(self, key):
+        curr_node, count = self.head, 0
+        while curr_node:
+            if curr_node.value == key:
+                count += 1
+            curr_node = curr_node.next
+        return count
+
+    def detect_loop_hm(self):
+        S, curr_node = set(), self.head
+        while curr_node:
+            if curr_node in S:
+                return True
+            S.add(curr_node)
+            curr_node = curr_node.next
+        return False
+
+    # Floyd's Cycle Finding Algorithm
+    def find_cycle(self):
+        p1, p2 = self.head, self.head
+        while p2 and p2.next:
+            p1 = p1.next
+            p2 = p2.next.next
+            if p1 == p2:
+                return True
+        return False
+
+    def reverse_linked_list(self):
+        curr_node, prev, next = self.head, None, None
+        while curr_node:
+            # Making changes to the node
+            next = curr_node.next
+            curr_node.next = prev
+
+            # Traversing through the Linked List
+            prev = curr_node
+            curr_node = next
+        self.head = prev
+
+
+
+if __name__ == '__main__':
+    # Start with the empty list
+    llist = LinkedList()
+
+    # Insert 6.  So linked list becomes 6->None
+    llist.insert_at_end(6)
+
+    # Insert 7 at the beginning. So linked list becomes 7->6->None
+    llist.push(7)
+
+    # Insert 1 at the beginning. So linked list becomes 1->7->6->None
+    llist.push(1)
+
+    # Insert 4 at the end. So linked list becomes 1->7->6->4->None
+    llist.insert_at_end(4)
+    llist.insert_at_end(4)
+
+    # Insert 8, after 7. So linked list becomes 1 -> 7-> 8-> 6-> 4-> None
+    llist.insert_after(llist.head.next, 8)
+
+    print('Created linked list is:')
+    llist.print_linked_list()
+
+    # llist.delete_key(4)
+    llist.delete_key_using_dummy(4)
+
+
+    print('\nUpdated linked list is:')
+    llist.print_linked_list()
+
+    print('\nlength is : ')
+    print(llist.length())
+
+    llist.delete_all_occurrences(4)
+
+    print('\nUpdated linked list is:')
+    llist.print_linked_list()
+
+    print("\n\nIterative Search")
+    print(llist.search_key(7))
+
+    print("\nRecursive Search ")
+    print(llist.search_key_recursive(llist.head,7))
+
+    print("\n Search at Index")
+    print(llist.get_at_index(4))
+
+    print("\n Search from end")
+    print(llist.n_from_end(2))
+
+    print("\n Search from end via Runner technique")
+    print(llist.n_from_end_runner(2))
+
+    print("\n Print the middle value of the linked list")
+    print(llist.middle_val())
+
+    print("\n Count repetition of given key")
+    print(llist.count_repetition(7))
+
+    print("\nDetect Cycles")
+    print(llist.detect_loop_hm())
+
+    llist2 = LinkedList()
+    llist2.push(20)
+    llist2.push(4)
+    llist2.push(15)
+    llist2.push(10)
+    # Creating a loop for testing
+    llist2.head.next.next.next.next = llist2.head
+
+    print("\nDetect Cycles")
+    print(llist2.detect_loop_hm())
+
+    print("\nFloyd's Cycle Finding Algo Implementation")
+    print(llist2.find_cycle())
+
+    llist.reverse_linked_list()
+    print("\nReversed Linked List")
+    llist.print_linked_list()
+
+
+
+
+#Mid
+class ListNode():
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+class Solution():
+    def mid(self, head):
+        slow = fast = head
+        
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+    
+    def mid_second(self, head):
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+    
+
